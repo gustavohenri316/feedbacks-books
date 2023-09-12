@@ -38,7 +38,7 @@ export function UserInfo({
   }, []);
 
   return (
-    <div className="relative w-56" ref={containerRef}>
+    <div className="relative" ref={containerRef}>
       <div className="relative w-full flex items-center justify-end">
         <img
           src={avatarUrl}
@@ -48,21 +48,21 @@ export function UserInfo({
         />
       </div>
       {open && (
-        <div className="absolute top-full left-0 w-full mt-2">
-          <div className="bg-neutral-800 rounded-md w-auto">
+        <div className="absolute top-full right-0 w-56 mt-2">
+          <div className="bg-neutral-700 rounded-md w-auto">
             <div className="flex flex-col gap-1">
               <span
-                className="w-full rounded-t-md cursor-pointer hover:bg-neutral-900 p-2"
+                className="w-full rounded-t-md cursor-pointer hover:bg-neutral-800 p-2"
                 onClick={goProfile}
               >
                 Perfil
               </span>
-              <span className="w-full cursor-pointer hover:bg-neutral-900 p-2">
+              <span className="w-full cursor-pointer hover:bg-neutral-800 p-2">
                 Meus compartilhamentos
               </span>
               <span
                 onClick={signOut}
-                className="w-full rounded-b-md cursor-pointer hover:bg-neutral-900 p-2"
+                className="w-full rounded-b-md cursor-pointer hover:bg-neutral-800 p-2"
               >
                 Sair
               </span>

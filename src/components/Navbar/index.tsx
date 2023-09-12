@@ -10,6 +10,7 @@ export function Navbar() {
   const navigate = useNavigate();
   const goLogin = () => navigate("/login");
   const goRegister = () => navigate("/register");
+  const goRegisterSummaryBook = () => navigate("/register-summary-book");
 
   const isToken = Boolean(token);
 
@@ -41,8 +42,13 @@ export function Navbar() {
         </div>
       )}
       {isToken && user && (
-        <div className="flex items-center gap-2">
-          <button className="border rounded-md p-2">Cadastrar Resumo</button>
+        <div className="flex items-center gap-8">
+          <button
+            onClick={goRegisterSummaryBook}
+            className="border rounded-md p-2 bg-violet-800 border-violet-800 hover:bg-violet-900 hover:border-violet-900"
+          >
+            Cadastrar Resumo
+          </button>
           <UserInfo
             avatarUrl={user?.avatarUrl}
             email={user?.email}

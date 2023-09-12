@@ -8,6 +8,7 @@ const Login = lazy(() => import("../pages/Login"));
 const Register = lazy(() => import("../pages/Register"));
 const Profile = lazy(() => import("../pages/Profile"));
 const Book = lazy(() => import("../pages/Book"));
+const RegisterSummaryBook = lazy(() => import("../pages/RegisterSummaryBook"));
 
 export default function Routers() {
   const { FeedbackBooks_Token: token } = parseCookies();
@@ -31,6 +32,10 @@ export default function Routers() {
           <Route path="/" element={<Home />} />
           <Route path="/profile/:id/:name" element={<Profile />} />
           <Route path="/book/:id/" element={<Book />} />
+          <Route
+            path="/register-summary-book"
+            element={<RegisterSummaryBook />}
+          />
         </Route>
       </Routes>
     </Suspense>
