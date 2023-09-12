@@ -1,6 +1,7 @@
-import { parseCookies } from "nookies";
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { Loading } from "../components/Loading";
 
 const LayoutDefault = lazy(() => import("../Layout"));
 const Home = lazy(() => import("../pages/Home"));
@@ -11,10 +12,17 @@ const Book = lazy(() => import("../pages/Book"));
 const RegisterSummaryBook = lazy(() => import("../pages/RegisterSummaryBook"));
 
 export default function Routers() {
-  const { FeedbackBooks_Token: token } = parseCookies();
-  if (!token) {
+  const { user } = useAuth();
+
+  if (!user) {
     return (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center h-screen w-screen">
+            <Loading />
+          </div>
+        }
+      >
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -26,7 +34,13 @@ export default function Routers() {
     );
   }
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center h-screen w-screen">
+          <Loading />
+        </div>
+      }
+    >
       <Routes>
         <Route path="/" element={<LayoutDefault />}>
           <Route path="/" element={<Home />} />

@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
 import { CaretLeft, CaretRight } from "phosphor-react";
 
+interface PaginationProps {
+  firstItemPage?: number;
+  lastItemPage?: number;
+  totalItems?: number;
+  itemsPerPage?: number;
+  onPageChange?: (pageNumber: number) => void;
+  routerLink?: string;
+}
+
 export function Pagination({
   itemsPerPage = 10,
   totalItems,

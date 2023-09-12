@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Search } from "../../components/Search";
 import { getBooks } from "../../services/books.service";
 import { ListBooks } from "../../components/ListBooks";
+import { Loading } from "../../components/Loading";
 
 function Home() {
   const [books, setBooks] = useState<BookResponse | undefined>();
@@ -60,9 +61,14 @@ function Home() {
     <div>
       <Search handleValue={handleValue} />
       <div className="flex flex-col gap-2 mt-4">
+        {!books && (
+          <div className="flex items-center justify-center">
+            <Loading />
+          </div>
+        )}
         {books &&
-          books.items.map((book: BookItem) => {
-            return <ListBooks book={book} />;
+          books.items.map((book: BookItem, index: number) => {
+            return <ListBooks book={book} key={index} />;
           })}
       </div>
 
