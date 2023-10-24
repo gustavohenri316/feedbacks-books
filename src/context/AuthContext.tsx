@@ -1,6 +1,7 @@
-import { destroyCookie, parseCookies, setCookie } from "nookies";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { destroyCookie, setCookie } from "nookies";
+import React, { createContext, useContext, useState } from "react";
 import toast from "react-hot-toast";
+import { sigInRequest } from "../services/sigin.service";
 
 interface User {
   id: number;
@@ -26,7 +27,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const signIn = async ({ email, password }: Credentials) => {
     try {
-      const response = await fakeApiSignIn(email, password);
+      const response = await sigInRequest({ email, password });
       if (response && response.token) {
         toast.success(`Bem vindo! ${response.user.name}`);
         setUser(response.user);
@@ -50,21 +51,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     window.location.href = "/";
   };
 
-  const fetchUserProfile = async () => {
-    try {
-      const { FeedbackBooks_Token: token } = parseCookies();
-      if (token) {
-        const userProfile = await fakeApiGetUserProfile(token);
-        setUser(userProfile);
-      }
-    } catch (error) {
-      console.error("Erro ao buscar perfil do usuário:", error);
-    }
-  };
-  useEffect(() => {
-    fetchUserProfile();
-  }, []);
-
   return (
     <AuthContext.Provider value={{ user, signIn, signOut }}>
       {children}
@@ -78,41 +64,4 @@ export function useAuth(): AuthContextType {
     throw new Error("useAuth deve ser usado dentro de um AuthProvider");
   }
   return context;
-}
-
-async function fakeApiSignIn(email: string, password: string) {
-  return new Promise<{ token: string; user: User }>((resolve, reject) => {
-    setTimeout(() => {
-      if (email === "gustavohenri316@icloud.com" && password === "Bara98ks@") {
-        resolve({
-          token: "fake-auth-token",
-          user: {
-            id: 1,
-            name: "Gustavo Henrique Gonçalves de Oliveira",
-            avatarUrl: "https://github.com/gustavohenri316.png",
-            email: "gustavohenri316@icloud.com",
-          },
-        });
-      } else {
-        reject(new Error("Credenciais inválidas"));
-      }
-    }, 1000);
-  });
-}
-
-async function fakeApiGetUserProfile(token: string) {
-  return new Promise<User>((resolve, reject) => {
-    setTimeout(() => {
-      if (token === "fake-auth-token") {
-        resolve({
-          id: 1,
-          name: "Gustavo Henrique Gonçalves de Oliveira",
-          email: "gustavohenri316@icloud.com",
-          avatarUrl: "https://github.com/gustavohenri316.png",
-        });
-      } else {
-        reject(new Error("Token inválido"));
-      }
-    }, 1000);
-  });
 }
