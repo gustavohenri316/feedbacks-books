@@ -42,16 +42,6 @@ export default function Login() {
             Entrar
           </button>
           <span className="text-center">Entrar usando</span>
-          <div className="flex gap-2 items-center">
-            <button className="p-2 rounded-md w-full border-neutral-100 border flex items-center justify-center gap-4">
-              <GoogleLogo size={20} />
-              Google
-            </button>
-            <button className="p-2 rounded-md w-full border-neutral-100 border flex items-center justify-center gap-4">
-              <GithubLogo size={20} />
-              Github
-            </button>
-          </div>
           <span className="text-center">ou</span>
           <Link to="/register">
             <button className="p-2 rounded-md w-full bg-blue-800 hover:bg-blue-900">

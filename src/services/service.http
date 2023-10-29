@@ -1,0 +1,15 @@
+###
+@baseURL = http://localhost:8080
+POST {{baseURL}}/auth/login
+Content-Type: application/json
+
+{
+  "login": "gustavohenri316@icloud.com",
+  "password": "stringst"
+}
+
+###
+GET {{baseURL}}/user 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJib29rU3VtbWFyeS1hcGkiLCJzdWIiOiJndXN0YXZvaGVucmkzMTZAaWNsb3VkLmNvbSIsImV4cCI6MTY5ODE5ODAxOH0.lX3SnsVPDTYhuudWLWRtnqrIK90cu7oQrlViE0LkkCk
+

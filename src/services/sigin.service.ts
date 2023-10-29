@@ -1,21 +1,24 @@
-import axios from "axios";
+
 
 type SigInProps = {
   email: string;
   password: string;
 };
 
-const baseURL = "http://192.168.100.64:8080";
+const baseURL = "http://localhost:8080";
 
 export async function sigInRequest({ email, password }: SigInProps) {
   const payload = {
-    email,
+    login:email,
     password,
   };
   await fetch(`${baseURL}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+
+        'Access-Control-Allow-Origin': '*'
+      
     },
     body: JSON.stringify(payload),
   })

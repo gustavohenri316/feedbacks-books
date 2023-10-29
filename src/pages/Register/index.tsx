@@ -1,19 +1,19 @@
-import { GoogleLogo, GithubLogo } from "phosphor-react";
-import { Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 import { useState } from "react";
+import { userRegister } from "../../services/auth";
 
 interface FormData {
   name: string;
-  email: string;
+  login: string;
   password: string;
-  confirmPassword: string;
+  avatarURL: string;
 }
 
 interface FormErrors {
   name?: string;
-  email?: string;
+  login?: string;
   password?: string;
-  confirmPassword?: string;
+  avatarURL?: string;
 }
 
 interface PasswordRequirement {
@@ -24,15 +24,15 @@ interface PasswordRequirement {
 export default function Register() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
-    email: "",
+    login: "",
     password: "",
-    confirmPassword: "",
+    avatarURL: "https://avatars.githubusercontent.com/u/64738844?v=4",
   });
   const [errors, setErrors] = useState<FormErrors>({
     name: "",
-    email: "",
+    login: "",
     password: "",
-    confirmPassword: "",
+    avatarURL: "",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +43,7 @@ export default function Register() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const newErrors: FormErrors = {};
@@ -52,10 +52,10 @@ export default function Register() {
       newErrors.name = "O name é obrigatório";
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = "O email é obrigatório";
-    } else if (!isValidEmail(formData.email)) {
-      newErrors.email = "Email inválido";
+    if (!formData.login.trim()) {
+      newErrors.login = "O login é obrigatório";
+    } else if (!isValidlogin(formData.login)) {
+      newErrors.login = "login inválido";
     }
 
     if (!formData.password) {
@@ -72,20 +72,25 @@ export default function Register() {
         "A password deve conter pelo menos um caractere especial";
     }
 
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "As passwords não coincidem";
-    }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
       console.log("Dados do formulário enviados:", formData);
     }
+
+    try {
+ 
+
+      await userRegister(formData)
+    } catch(err){
+      console.error(err)
+    }
   };
 
-  const isValidEmail = (email: string) => {
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    return emailPattern.test(email);
+  const isValidlogin = (login: string) => {
+    const loginPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return loginPattern.test(login);
   };
 
   const hasUpperCase = (str: string) => /[A-Z]/.test(str);
@@ -144,14 +149,14 @@ export default function Register() {
 
             <input
               type="text"
-              name="email"
-              value={formData.email}
+              name="login"
+              value={formData.login}
               onChange={handleInputChange}
               className="bg-white rounded-md p-2 text-neutral-900"
-              placeholder="Email"
+              placeholder="login"
             />
-            {errors.email && (
-              <span className="text-red-500 text-sm">{errors.email}</span>
+            {errors.login && (
+              <span className="text-red-500 text-sm">{errors.login}</span>
             )}
 
             <input
@@ -181,16 +186,16 @@ export default function Register() {
             )}
 
             <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
+              type="text"
+              name="avata"
+              value={formData.avatarURL}
               onChange={handleInputChange}
               className="bg-white rounded-md p-2 text-neutral-900"
-              placeholder="Confirme sua password"
+              placeholder="link da foto"
             />
-            {errors.confirmPassword && (
+            {errors.avatarURL && (
               <span className="text-red-500 text-sm">
-                {errors.confirmPassword}
+                {errors.avatarURL}
               </span>
             )}
 
@@ -200,19 +205,7 @@ export default function Register() {
           </div>
         </form>
         <div className="flex flex-col gap-1 mt-1">
-          <span className="flex items-center justify-center">
-            Registrar usando
-          </span>
-          <div className="flex gap-2 items-center">
-            <button className="p-2 rounded-md w-full border-neutral-100 border flex items-center justify-center gap-4">
-              <GoogleLogo size={20} />
-              Google
-            </button>
-            <button className="p-2 rounded-md w-full border-neutral-100 border flex items-center justify-center gap-4">
-              <GithubLogo size={20} />
-              Github
-            </button>
-          </div>
+        
           <span className="flex items-center justify-center">ou</span>
           <Link to="/login">
             <button className="p-2 rounded-md w-full bg-blue-800 hover:bg-blue-900">
