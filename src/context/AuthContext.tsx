@@ -1,13 +1,14 @@
-import { destroyCookie, setCookie } from "nookies";
-import React, { createContext, useContext, useState } from "react";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { sigInRequest } from "../services/sigin.service";
+import { api } from "../services/api";
 
 interface User {
   id: number;
   name: string;
-  email: string;
-  avatarUrl: string;
+  login: string;
+  avatarURL: string;
 }
 
 interface AuthContextType {
@@ -25,19 +26,30 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const {"FeedbackBooks_uuid": uuid} = parseCookies()
+  async function getUser(){
+    const {data} = await api.get('/user/'+uuid)
+    setUser(data)
+  }
+  useEffect(() =>{
+   if(uuid){
+
+     getUser()
+    }
+    
+  },[uuid])
+
   const signIn = async ({ email, password }: Credentials) => {
     try {
       const response = await sigInRequest({ email, password });
-      if (response && response.token) {
-        toast.success(`Bem vindo! ${response.user.name}`);
-        setUser(response.user);
         setCookie(undefined, "FeedbackBooks_Token", response.token, {
           maxAge: 60 * 60 * 24 * 30,
         });
+        setCookie(undefined, "FeedbackBooks_uuid", response.userId, {
+          maxAge: 60 * 60 * 24 * 30,
+        });
         window.location.href = "/";
-      } else {
-        throw new Error("Credenciais inválidas");
-      }
+     
     } catch (error) {
       toast.error("Credenciais inválidas");
       console.error("Erro ao fazer login:", error);
@@ -47,6 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = () => {
     destroyCookie(null, "FeedbackBooks_Token");
+    destroyCookie(null, "FeedbackBooks_uuid");
     setUser(null);
     window.location.href = "/";
   };

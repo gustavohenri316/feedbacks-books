@@ -2,24 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-interface IUserInfo {
-  name: string;
-  email: string;
-  avatarUrl: string;
-  id: number;
-}
-export function UserInfo({
-  avatarUrl = "",
-  email = "",
-  id = 0,
-  name = "",
-}: IUserInfo) {
+export function UserInfo() {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const {user} = useAuth()
   const navigate = useNavigate();
   const { signOut } = useAuth();
 
-  const goProfile = () => navigate(`/profile/${id}/${name}?email=${email}`);
+  const goProfile = () => navigate(`/profile/${user?.id}/${user?.name}?email=${user?.login}`);
 
   const click = () => setOpen(!open);
 
@@ -42,7 +32,7 @@ export function UserInfo({
     <div className="relative" ref={containerRef}>
       <div className="relative w-full flex items-center justify-end">
         <img
-          src={avatarUrl}
+          src={user?.avatarURL}
           alt={`Foto de ${name}`}
           onClick={click}
           className="h-14 w-14 rounded-full cursor-pointer"

@@ -1,3 +1,4 @@
+import axios from "axios";
 
 
 type SigInProps = {
@@ -7,21 +8,16 @@ type SigInProps = {
 
 const baseURL = "http://localhost:8080";
 
-export async function sigInRequest({ email, password }: SigInProps) {
+type SigInResponse = {
+  token: string
+  userId: string
+}
+
+export async function sigInRequest({ email, password }: SigInProps):Promise<SigInResponse> {
   const payload = {
     login:email,
     password,
   };
-  await fetch(`${baseURL}/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-
-        'Access-Control-Allow-Origin': '*'
-      
-    },
-    body: JSON.stringify(payload),
-  })
-    .then((response) => response.json())
-    .then((data) => console.log(data));
+ const response =  await axios.post(`${baseURL}/auth/login`, payload)
+    return response.data
 }

@@ -9,7 +9,6 @@ Content-Type: application/json
 }
 
 ###
-GET {{baseURL}}/user 
+GET {{baseURL}}/user/ba3a8404-5101-4aae-b710-30e3af1213ee 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJib29rU3VtbWFyeS1hcGkiLCJzdWIiOiJndXN0YXZvaGVucmkzMTZAaWNsb3VkLmNvbSIsImV4cCI6MTY5ODE5ODAxOH0.lX3SnsVPDTYhuudWLWRtnqrIK90cu7oQrlViE0LkkCk
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJib29rU3VtbWFyeS1hcGkiLCJzdWIiOiJndXN0YXZvaGVucmkzMTZAaWNsb3VkLmNvbSIsImV4cCI6MTY5ODcwMzM3NH0.Pj_X4nvaCI_k1vUgjM7vQ8ol2QiwXgxy0tqR9oiw96E

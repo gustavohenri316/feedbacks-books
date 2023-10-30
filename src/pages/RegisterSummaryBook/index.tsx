@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { getBooks } from "../../services/books.service";
+
 export default function RegisterSummaryBook() {
   const genres = [
     "Ficção",
@@ -52,6 +55,16 @@ export default function RegisterSummaryBook() {
     "Ficção de Fãs (Fanfiction)",
   ];
 
+  const [name, setName] = useState('')
+  const [value, setValue] = useState()
+    useEffect(() =>{
+      async function fetchBooks() {
+      const response =  await getBooks({searchParams: name})
+
+      setValue(response.items[0].volumeInfo.title)
+      }
+    fetchBooks()
+    },[name])
   return (
     <div>
       <h1 className="text-xl">Registrar novo resumo</h1>
@@ -61,8 +74,11 @@ export default function RegisterSummaryBook() {
             <span>Nome do livro</span>
             <input
               type="search"
+              value={name}
+              onChange={(e)=> setName(e.target.value)}
               className="rounded-md p-2 bg-neutral-700 text-white"
             />
+          {name && value}
           </div>
           <div className="flex flex-col gap-2 mt-2 w-full">
             <span>Autor</span>

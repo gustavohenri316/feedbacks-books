@@ -1,4 +1,5 @@
-import axios from "axios";
+
+import { api } from "./api";
 
 interface UserPayload {
   name: string;
@@ -6,7 +7,7 @@ interface UserPayload {
   password: string;
   avatarURL: string;
 }
-const baseURL = "http://localhost:8080";
+
 
 export async function userRegister({
   avatarURL,
@@ -14,15 +15,11 @@ export async function userRegister({
   name,
   password,
 }: UserPayload) {
-  const response = await axios.post(`${baseURL}/auth/register`, {
+  const response = await api.post(`/auth/register`, {
     avatarURL,
     login,
     name,
     password,
-  }, {
-    headers: {
-      'Access-Control-Allow-Origin': '*'
-    }
   });
 
   return response.data;
