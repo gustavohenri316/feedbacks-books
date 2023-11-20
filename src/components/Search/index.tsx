@@ -18,7 +18,7 @@ export function Search({ handleValue }: ISearch) {
           className="bg-transparent w-full h-full p-2 rounded-md"
         />
       </div>
-      <button className="bg-violet-800 p-2 rounded-md">
+      <button className="bg-violet-800 p-2 rounded-md border border-violet-800">
         <MagnifyingGlass size={22} onClick={() => handleValue(value)} />
       </button>
     </div>

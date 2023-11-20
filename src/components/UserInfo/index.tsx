@@ -5,11 +5,12 @@ import { useAuth } from "../../context/AuthContext";
 export function UserInfo() {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const {user} = useAuth()
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { signOut } = useAuth();
 
-  const goProfile = () => navigate(`/profile/${user?.id}/${user?.name}?email=${user?.login}`);
+  const goProfile = () =>
+    navigate(`/profile/${user?.id}/${user?.name}?email=${user?.login}`);
 
   const click = () => setOpen(!open);
 
@@ -39,8 +40,8 @@ export function UserInfo() {
         />
       </div>
       {open && (
-        <div className="absolute top-full right-0 w-56 mt-2">
-          <div className="bg-neutral-700 rounded-md w-auto">
+        <div className="absolute top-full right-0 w-56 mt-2 ">
+          <div className="bg-neutral-700 rounded-md w-auto p-2">
             <div className="flex flex-col gap-1">
               <span
                 className="w-full rounded-t-md cursor-pointer hover:bg-neutral-800 p-2"
