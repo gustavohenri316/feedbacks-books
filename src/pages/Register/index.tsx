@@ -1,6 +1,7 @@
-import {  Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { userRegister } from "../../services/auth";
+import { uploadImages } from "../../components/upload-images";
 
 interface FormData {
   name: string;
@@ -22,11 +23,12 @@ interface PasswordRequirement {
 }
 
 export default function Register() {
+  const [image, setImage] = useState("");
   const [formData, setFormData] = useState<FormData>({
     name: "",
     login: "",
     password: "",
-    avatarURL: "https://avatars.githubusercontent.com/u/64738844?v=4",
+    avatarURL: "",
   });
   const [errors, setErrors] = useState<FormErrors>({
     name: "",
@@ -41,6 +43,15 @@ export default function Register() {
       ...formData,
       [name]: value,
     });
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      uploadImages(e, setImage);
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -72,19 +83,22 @@ export default function Register() {
         "A password deve conter pelo menos um caractere especial";
     }
 
-
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      console.log("Dados do formulário enviados:", formData);
+      const payload = {
+        name: formData.name,
+        login: formData.login,
+        password: formData.password,
+        avatarURL: image,
+      };
+      console.log("Dados do formulário enviados:", payload);
     }
 
     try {
- 
-
-      await userRegister(formData)
-    } catch(err){
-      console.error(err)
+      await userRegister(formData);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -186,17 +200,15 @@ export default function Register() {
             )}
 
             <input
-              type="text"
+              type="file"
               name="avata"
               value={formData.avatarURL}
-              onChange={handleInputChange}
+              onChange={handleImageChange}
               className="bg-white rounded-md p-2 text-neutral-900"
               placeholder="link da foto"
             />
             {errors.avatarURL && (
-              <span className="text-red-500 text-sm">
-                {errors.avatarURL}
-              </span>
+              <span className="text-red-500 text-sm">{errors.avatarURL}</span>
             )}
 
             <button className="p-2 rounded-md w-full bg-violet-800 hover:bg-violet-900">
@@ -205,7 +217,6 @@ export default function Register() {
           </div>
         </form>
         <div className="flex flex-col gap-1 mt-1">
-        
           <span className="flex items-center justify-center">ou</span>
           <Link to="/login">
             <button className="p-2 rounded-md w-full bg-blue-800 hover:bg-blue-900">
