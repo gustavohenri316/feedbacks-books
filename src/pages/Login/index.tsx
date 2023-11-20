@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { GithubLogo, GoogleLogo } from "phosphor-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 

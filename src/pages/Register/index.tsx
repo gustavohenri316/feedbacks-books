@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { userRegister } from "../../services/auth";
 import { uploadImages } from "../../components/upload-images";
+import { useAuth } from "../../context/AuthContext";
 
 interface FormData {
   name: string;
@@ -24,6 +25,7 @@ interface PasswordRequirement {
 
 export default function Register() {
   const [image, setImage] = useState("");
+  const { signUp } = useAuth();
   const [formData, setFormData] = useState<FormData>({
     name: "",
     login: "",
@@ -92,7 +94,7 @@ export default function Register() {
         password: formData.password,
         avatarURL: image,
       };
-      console.log("Dados do formulário enviados:", payload);
+      await signUp(payload);
     }
 
     try {

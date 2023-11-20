@@ -34,8 +34,13 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const { FeedbackBooks_uuid: uuid } = parseCookies();
+  const { FeedbackBooks_Token: Token } = parseCookies();
   async function getUser() {
-    const { data } = await api.get("/user/" + uuid);
+    const { data } = await api.get("/user/" + uuid, {
+      headers: {
+        Authorization: `Bearer ${Token}`,
+      },
+    });
     setUser(data);
   }
   useEffect(() => {
@@ -53,7 +58,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setCookie(undefined, "FeedbackBooks_uuid", response.userId, {
         maxAge: 60 * 60 * 24 * 30,
       });
-      window.location.href = "/";
     } catch (error) {
       toast.error("Credenciais inválidas");
       console.error("Erro ao fazer login:", error);
