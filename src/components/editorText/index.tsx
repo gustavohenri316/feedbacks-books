@@ -1,24 +1,73 @@
-import React, { useState } from "react";
-import { EditorState, ContentState } from "draft-js";
-import { Editor, EditorProps } from "react-draft-wysiwyg";
+import React, { useRef } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-export const ControlledEditor: React.FC = () => {
-  const [editorState, setEditorState] = useState<EditorState>(
-    EditorState.createWithContent(ContentState.createFromText(""))
-  );
+interface EditorMessagesProps {
+  value: string;
+  onChange: (content: string) => void;
+}
 
-  const onEditorStateChange: EditorProps["onEditorStateChange"] = (
-    editorState
-  ) => {
-    setEditorState(editorState);
+export const EditorMessages: React.FC<EditorMessagesProps> = ({
+  value,
+  onChange,
+}) => {
+  const quillRef = useRef<ReactQuill | null>(null);
+
+  const handleChange = (content: string) => {
+    onChange(content);
   };
 
+  const modules = {
+    toolbar: {
+      container: [
+        [{ header: 1 }, { header: 2 }],
+        [{ font: [] }],
+        [{ size: [] }],
+        ["bold", "italic", "underline", "strike"],
+        [{ color: [] }, { background: [] }],
+        [{ script: "sub" }, { script: "super" }],
+        [{ list: "ordered" }, { list: "bullet" }],
+        [{ indent: "-1" }, { indent: "+1" }],
+        [{ direction: "rtl" }],
+        [{ align: [] }],
+
+        ["link"],
+        ["clean"],
+      ],
+    },
+  };
+
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "color",
+    "background",
+    "script",
+    "list",
+    "bullet",
+    "indent",
+    "direction",
+    "align",
+    "link",
+    "image",
+  ];
+
   return (
-    <Editor
-      editorState={editorState}
-      wrapperClassName="demo-wrapper"
-      editorClassName="demo-editor"
-      onEditorStateChange={onEditorStateChange}
-    />
+    <div className=" w-full h-96 overflow-auto bg-white  ">
+      <ReactQuill
+        ref={(ref) => (quillRef.current = ref)}
+        theme="snow"
+        className="h-full  border-none overflow-auto"
+        value={value}
+        onChange={handleChange}
+        modules={modules}
+        formats={formats}
+      />
+    </div>
   );
 };

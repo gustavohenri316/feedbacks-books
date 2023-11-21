@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { GithubLogo, GoogleLogo } from "phosphor-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
@@ -12,8 +11,8 @@ export default function Login() {
     signIn({ password, email });
   }
   return (
-    <div className="bg-neutral-900 w-screen h-screen text-white flex items-center  justify-center">
-      <div className="p-12 bg-neutral-800 rounded-md w-96">
+    <div className="bg-neutral-100 w-screen h-screen text-neutral-900 flex items-center  justify-center">
+      <div className="p-12 bg-neutral-300 rounded-md w-96">
         <Link to="/" className="text-center">
           <h1 className="text-3xl cursor-pointer hover:text-violet-800">
             Feedback Books
@@ -37,18 +36,18 @@ export default function Login() {
           />
           <button
             onClick={fetchLogin}
-            className="p-2 rounded-md w-full bg-violet-800 hover:bg-violet-900"
+            className="p-2 rounded-md w-full bg-violet-800 hover:bg-violet-900 text-white"
           >
             Entrar
           </button>
-          <span className="text-center">Entrar usando</span>
+
           <span className="text-center">ou</span>
           <Link to="/register">
-            <button className="p-2 rounded-md w-full bg-blue-800 hover:bg-blue-900">
+            <button className="p-2 rounded-md w-full bg-blue-800 hover:bg-blue-900 text-white">
               Registrar
             </button>
           </Link>
-          <span className="text-center hover:underline text-neutral-500 cursor-pointer">
+          <span className="text-center hover:underline text-neutral-500 cursor-pointer ">
             Esqueci minha senha
           </span>
         </div>

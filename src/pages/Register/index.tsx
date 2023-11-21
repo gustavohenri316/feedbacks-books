@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { userRegister } from "../../services/auth";
 import { uploadImages } from "../../components/upload-images";
+import { useAuth } from "../../context/AuthContext";
 
 interface FormData {
   name: string;
@@ -24,6 +25,7 @@ interface PasswordRequirement {
 
 export default function Register() {
   const [image, setImage] = useState("");
+  const { signUp } = useAuth();
   const [formData, setFormData] = useState<FormData>({
     name: "",
     login: "",
@@ -92,7 +94,7 @@ export default function Register() {
         password: formData.password,
         avatarURL: image,
       };
-      console.log("Dados do formulário enviados:", payload);
+      await signUp(payload);
     }
 
     try {
@@ -141,8 +143,8 @@ export default function Register() {
     checkAllRequirementsSatisfied(passwordRequirements);
 
   return (
-    <div className="bg-neutral-900 w-screen h-screen text-white flex items-center justify-center">
-      <div className="p-12 bg-neutral-800 rounded-md w-1/4">
+    <div className="bg-neutral-100 w-screen h-screen text-neutral-900 flex items-center justify-center">
+      <div className="p-12 bg-neutral-300 rounded-md w-1/4">
         <Link to="/" className="text-center">
           <h1 className="text-3xl cursor-pointer hover:text-violet-800">
             Feedback Books
@@ -211,7 +213,7 @@ export default function Register() {
               <span className="text-red-500 text-sm">{errors.avatarURL}</span>
             )}
 
-            <button className="p-2 rounded-md w-full bg-violet-800 hover:bg-violet-900">
+            <button className="p-2 rounded-md w-full bg-violet-800 hover:bg-violet-900 text-white">
               Criar conta
             </button>
           </div>
@@ -219,7 +221,7 @@ export default function Register() {
         <div className="flex flex-col gap-1 mt-1">
           <span className="flex items-center justify-center">ou</span>
           <Link to="/login">
-            <button className="p-2 rounded-md w-full bg-blue-800 hover:bg-blue-900">
+            <button className="p-2 rounded-md w-full bg-blue-800 hover:bg-blue-900 text-white">
               Entrar
             </button>
           </Link>

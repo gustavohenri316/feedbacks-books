@@ -15,10 +15,10 @@ export function Navbar() {
   const isToken = Boolean(token);
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-center border-b py-2 px-7">
       <div>
         <Link to="/">
-          <h1 className="text-3xl">Books Feedback</h1>
+          <h1 className="text-4xl font-bold text-violet-800">Books Feedback</h1>
         </Link>
       </div>
       {!isToken && (
@@ -45,16 +45,11 @@ export function Navbar() {
         <div className="flex items-center gap-8">
           <button
             onClick={goRegisterSummaryBook}
-            className="border rounded-md p-2 bg-violet-800 border-violet-800 hover:bg-violet-900 hover:border-violet-900"
+            className="border rounded-md p-2 bg-violet-800 border-violet-800 hover:bg-violet-900 text-white hover:border-violet-900"
           >
             Cadastrar Resumo
           </button>
-          <UserInfo
-            avatarUrl={user?.avatarUrl}
-            email={user?.email}
-            name={user?.name}
-            id={user?.id}
-          />
+          <UserInfo />
         </div>
       )}
     </div>

@@ -10,6 +10,7 @@ const Register = lazy(() => import("../pages/Register"));
 const Profile = lazy(() => import("../pages/Profile"));
 const Book = lazy(() => import("../pages/Book"));
 const RegisterSummaryBook = lazy(() => import("../pages/RegisterSummaryBook"));
+const FeedbackBookView = lazy(() => import("../pages/FeedbackBookView"));
 
 export default function Routers() {
   const { user } = useAuth();
@@ -50,6 +51,7 @@ export default function Routers() {
             path="/register-summary-book"
             element={<RegisterSummaryBook />}
           />
+          <Route path="/feedback-book/:id" element={<FeedbackBookView />} />
         </Route>
       </Routes>
     </Suspense>

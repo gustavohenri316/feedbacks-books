@@ -5,7 +5,7 @@ import { sigInRequest, sigUpRequest } from "../services/sigin.service";
 import { api } from "../services/api";
 
 interface User {
-  id: number;
+  id: string;
   name: string;
   login: string;
   avatarURL: string;
@@ -34,8 +34,13 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const { FeedbackBooks_uuid: uuid } = parseCookies();
+  const { FeedbackBooks_Token: Token } = parseCookies();
   async function getUser() {
-    const { data } = await api.get("/user/" + uuid);
+    const { data } = await api.get("/user/" + uuid, {
+      headers: {
+        Authorization: `Bearer ${Token}`,
+      },
+    });
     setUser(data);
   }
   useEffect(() => {

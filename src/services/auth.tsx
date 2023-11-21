@@ -1,4 +1,3 @@
-
 import { api } from "./api";
 
 interface UserPayload {
@@ -7,7 +6,6 @@ interface UserPayload {
   password: string;
   avatarURL: string;
 }
-
 
 export async function userRegister({
   avatarURL,
@@ -20,6 +18,7 @@ export async function userRegister({
     login,
     name,
     password,
+    role: "USER",
   });
 
   return response.data;

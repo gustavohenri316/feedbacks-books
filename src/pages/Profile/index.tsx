@@ -10,7 +10,7 @@ export default function Profile() {
   const closeEdit = () => setIsEdit(false);
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
+    login: "",
     avatarUrl: "",
   });
 
@@ -22,8 +22,8 @@ export default function Profile() {
     if (user) {
       setFormData({
         name: user.name || "",
-        email: user.email || "",
-        avatarUrl: user.avatarUrl || "",
+        login: user.login || "",
+        avatarUrl: user.avatarURL || "",
       });
     }
   }, [user]);
@@ -79,8 +79,8 @@ export default function Profile() {
         )}
       </div>
       <div className="flex flex-col gap-1">
-        <b>Email:</b>
-        {user?.email && (
+        <b>login:</b>
+        {user?.login && (
           <input
             disabled={!isEdit}
             type="text"
@@ -89,7 +89,7 @@ export default function Profile() {
                 ? "text-neutral-100 bg-neutral-600 rounded-md p-2"
                 : "text-neutral-100 bg-transparent "
             } `}
-            value={formData.email}
+            value={formData.login}
             onChange={handleInputChange}
           />
         )}

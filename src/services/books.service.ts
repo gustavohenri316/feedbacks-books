@@ -24,31 +24,71 @@ export async function getBooks({
 }
 
 export async function fetchBooks() {
-  const { data } = await api.get("/bookSummary");
+  const { data } = await api.get(`/bookSummary`);
   return data;
 }
 
 type CreateFeedbackBooksTypes = {
-  title: string;
-  summary: string;
-  bookName: string;
-  bookAuthor: string;
-  userId: string;
+  payload: {
+    summary: string;
+    bookName: string;
+    bookAuthor: string;
+    bookImage: string;
+  };
+  userId: string | null;
 };
 export async function createFeedbackBooks({
-  bookAuthor,
-  bookName,
-  summary,
-  title,
+  payload,
   userId,
 }: CreateFeedbackBooksTypes) {
-  const { data } = await api.post("/bookSummary", {
-    bookAuthor,
-    bookName,
-    summary,
-    title,
-    userId,
-  });
+  const { data } = await api.post("/bookSummary/" + userId, payload);
+  return data;
+}
 
+export async function findByIdFeedbackBooks(id: string) {
+  const { data } = await api.get(`/bookSummary/${id}`);
+  return data;
+}
+
+type BookCommentProps = {
+  text: string;
+  idUser: string;
+  idBookSummary: string;
+};
+export async function bookComment({
+  idBookSummary,
+  idUser,
+  text,
+}: BookCommentProps) {
+  const { data } = await api.post("/bookSummary/commentBookSummary", {
+    idBookSummary,
+    idUser,
+    text,
+  });
+  return data;
+}
+
+type LikesBookSummaryProps = {
+  bookId: string;
+  userId: string;
+};
+export async function likesBookSummary({
+  bookId,
+  userId,
+}: LikesBookSummaryProps) {
+  const { data } = await api.post(
+    `/bookSummary/likeBookSummary/${bookId}/${userId}`
+  );
+  return data;
+}
+
+type SendEmailBookProps = {
+  bookId: string;
+  userId: string;
+};
+export async function sendEmailBook({ bookId, userId }: SendEmailBookProps) {
+  const { data } = await api.post(
+    `/bookSummary/sendSummaryEmail/${bookId}/${userId}`
+  );
   return data;
 }
