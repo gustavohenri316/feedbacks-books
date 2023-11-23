@@ -5,7 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { uploadImages } from "../../components/upload-images";
-import { EditorMessages } from "../../components/editorText";
+import { EditorMessages } from "../../components/EditorText";
 
 export default function RegisterSummaryBook() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
