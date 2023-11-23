@@ -14,8 +14,6 @@ function Home() {
     null
   );
 
-  console.log(search);
-
   async function getBooksFeedbacks() {
     try {
       const data = await fetchBooks();
@@ -24,6 +22,7 @@ function Home() {
       console.log(err);
     }
   }
+
   async function getBooksFeedbacksNameBook() {
     try {
       const { data } = await api.get("/bookSummary/bookName/" + search);
@@ -32,6 +31,7 @@ function Home() {
       console.log(err);
     }
   }
+
   useEffect(() => {
     if (search) {
       getBooksFeedbacksNameBook();
@@ -39,19 +39,26 @@ function Home() {
       getBooksFeedbacks();
     }
   }, [search]);
+
   const navigate = useNavigate();
 
   const handleViewFeedback = (id: string) => navigate(`/feedback-book/${id}`);
+
+  const sortedBookSummary = bookSummary?.sort((a, b) =>
+    a.summaryDate && b.summaryDate
+      ? new Date(b.summaryDate).getTime() - new Date(a.summaryDate).getTime()
+      : 0
+  );
   return (
     <div
       className={`${
         !bookSummary ? "flex items-center justify-center w-full h-full" : ""
       } p-4`}
     >
-      {bookSummary && <Search handleValue={setSearch} value={search} />}
+      {sortedBookSummary && <Search handleValue={setSearch} value={search} />}
 
-      {bookSummary ? (
-        bookSummary?.map((item) => (
+      {sortedBookSummary ? (
+        sortedBookSummary.map((item) => (
           <div
             key={item.id}
             onClick={() => handleViewFeedback(item.id)}
@@ -93,8 +100,8 @@ function Home() {
                 className="mt-4"
                 dangerouslySetInnerHTML={{
                   __html:
-                    item.summary.length > 400
-                      ? `${item.summary.slice(0, 400)}...`
+                    item.summary.length > 300
+                      ? `${item.summary.slice(0, 300)}...`
                       : item.summary,
                 }}
               />

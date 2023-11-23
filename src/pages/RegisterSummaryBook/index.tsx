@@ -176,7 +176,7 @@ export default function RegisterSummaryBook() {
           Cancelar
         </button>
         <button
-          className="border rounded-md p-2 bg-violet-800 border-violet-800 hover:bg-violet-900"
+          className="border rounded-md p-2 bg-violet-800 border-violet-800 hover:bg-violet-900 text-white"
           onClick={createBookFeedback}
         >
           Cadastrar

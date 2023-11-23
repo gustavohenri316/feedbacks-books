@@ -13,7 +13,7 @@ export function Search({ handleValue, value }: ISearch) {
           type="search"
           value={value}
           onChange={(e) => handleValue(e.target.value)}
-          placeholder="Buscar livros, altores"
+          placeholder="Buscar livros pelo nome..."
           className="bg-transparent w-full h-full p-2 rounded-md"
         />
       </div>

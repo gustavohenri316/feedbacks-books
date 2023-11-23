@@ -10,6 +10,8 @@ import { format } from "date-fns";
 import { useAuth } from "../../context/AuthContext";
 import ptLocale from "date-fns/locale/pt";
 import CommentsViews from "../../components/CommentsViews";
+import toast from "react-hot-toast";
+import { Spinner } from "../../components/spinner";
 
 export interface BookSummaryResponse {
   id: string;
@@ -52,6 +54,7 @@ export default function FeedbackBookView() {
   const { user } = useAuth();
   const [isLiked, setIsLiked] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loadingSendEmail, setLoadingSendEmail] = useState(false);
 
   const handleLoading = () => setLoading(!loading);
   const navigate = useNavigate();
@@ -88,12 +91,19 @@ export default function FeedbackBookView() {
 
   async function sendEmail() {
     try {
+      setLoadingSendEmail(true);
       await sendEmailBook({
         bookId: book?.id as string,
         userId: user?.id as string,
       });
+      toast.success(
+        `Resumo do livro ${book?.bookName} foi enviado no seu email`
+      );
     } catch (err) {
       console.log(err);
+      toast.error("Error ao enviar resumo no seu email");
+    } finally {
+      setLoadingSendEmail(false);
     }
   }
 
@@ -132,7 +142,10 @@ export default function FeedbackBookView() {
           />
           <div className="flex flex-col">
             <div className="flex justify-between items-center">
-              <h1 className="text-2xl py-2">{book?.bookName}</h1>
+              <div className="flex flex-col">
+                <h1 className="text-4xl py-2">{book?.bookName}</h1>
+                <span className="text-lg">{book?.bookAuthor}</span>
+              </div>
               <div className="flex items-center gap-4">
                 {book?.likes.length}
                 <Heart
@@ -142,12 +155,16 @@ export default function FeedbackBookView() {
                   className={`cursor-pointer ${isLiked ? "text-red-500" : ""}`}
                 />
                 <span title="Enviar para meu e-mail ">
-                  <PaperPlaneTilt
-                    size={28}
-                    weight="thin"
-                    onClick={sendEmail}
-                    className="cursor-pointer"
-                  />
+                  {loadingSendEmail ? (
+                    <Spinner />
+                  ) : (
+                    <PaperPlaneTilt
+                      size={28}
+                      weight="thin"
+                      onClick={sendEmail}
+                      className="cursor-pointer"
+                    />
+                  )}
                 </span>
               </div>
             </div>
